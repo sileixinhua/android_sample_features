@@ -17,19 +17,21 @@ import android.widget.TextView;
 public class FragmentCommon extends Fragment {
     TextView textView;
 
-    public static FragmentCommon newInstance(String text){
-        FragmentCommon fragmentCommon=new FragmentCommon();
-        Bundle bundle=new Bundle();
-        bundle.putString("text",text);
+    public static FragmentCommon newInstance(String text) {
+        FragmentCommon fragmentCommon = new FragmentCommon();
+        Bundle bundle = new Bundle();
+        bundle.putString("text", text);
         fragmentCommon.setArguments(bundle);
         return fragmentCommon;
     }
-    @Nullable @Override
+
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_common,container,false);
-        textView= (TextView) view.findViewById(R.id.textView);
+        View view = inflater.inflate(R.layout.fragment_common, container, false);
+        textView = (TextView) view.findViewById(R.id.textView);
         textView.setText(getArguments().getString("text"));
         return view;
     }

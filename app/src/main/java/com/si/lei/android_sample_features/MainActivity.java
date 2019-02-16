@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void quick_start(View view){
-        startActivity(new Intent(this,QuickStartActivity.class));
+    public void quick_start(View view) {
+        startActivity(new Intent(this, QuickStartActivity.class));
     }
 }
