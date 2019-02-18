@@ -47,8 +47,7 @@ public class FragmentSetting extends Fragment {
 
     private static final String TAG = FragmentSetting.class.getSimpleName();
 
-    TextView textView;
-    TextView textView1;
+
 
     public static FragmentSetting newInstance() {
         FragmentSetting fragmentSetting = new FragmentSetting();
@@ -76,7 +75,7 @@ public class FragmentSetting extends Fragment {
          */
         getSDTotalSize();
         getSDAvailableSize();
-        getSysteTotalMemorySize();
+        getSystemTotalMemorySize();
         getSystemAvaialbeMemorySize();
         getSystemAvaialbeMemorySizePercent();
         getBatteryInfo();
@@ -102,11 +101,90 @@ public class FragmentSetting extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
-        textView = (TextView) view.findViewById(R.id.textView);
-        textView1 = (TextView) view.findViewById(R.id.textView1);
-        textView1.setText(getSDTotalSize());
+        TextView textSDTotalSize;
+        TextView SDTotalSize;
+        SDTotalSize = (TextView) view.findViewById(R.id.SDTotalSize);
+        SDTotalSize.setText(getSDTotalSize());
 
+        TextView textSDAvailableSize;
+        TextView SDAvailableSize;
+        SDAvailableSize = (TextView) view.findViewById(R.id.SDAvailableSize);
+        SDAvailableSize.setText(getSDAvailableSize());
 
+        TextView textSystemTotalMemorySize;
+        TextView SystemTotalMemorySize;
+        SystemTotalMemorySize = (TextView) view.findViewById(R.id.SystemTotalMemorySize);
+        SystemTotalMemorySize.setText(getSystemTotalMemorySize());
+
+        TextView textSystemAvaialbeMemorySize;
+        TextView SystemAvaialbeMemorySize;
+        SystemAvaialbeMemorySize = (TextView) view.findViewById(R.id.SystemAvaialbeMemorySize);
+        SystemAvaialbeMemorySize.setText(getSystemAvaialbeMemorySize());
+
+        TextView textSystemAvaialbeMemorySizePercent;
+        TextView SystemAvaialbeMemorySizePercent;
+        SystemAvaialbeMemorySizePercent = (TextView) view.findViewById(R.id.SystemAvaialbeMemorySizePercent);
+        SystemAvaialbeMemorySizePercent.setText(Long.toString(getSystemAvaialbeMemorySizePercent()));
+
+        TextView textBatteryInfo;
+        TextView BatteryInfo;
+        BatteryInfo = (TextView) view.findViewById(R.id.BatteryInfo);
+        //BatteryInfo.setText(getBatteryInfo());
+
+        TextView textIPAddress;
+        TextView IPAddress;
+        IPAddress = (TextView) view.findViewById(R.id.IPAddress);
+        IPAddress.setText(getIPAddress());
+
+        TextView textMacAddress;
+        TextView MacAddress;
+        MacAddress = (TextView) view.findViewById(R.id.MacAddress);
+        MacAddress.setText(getMacAddress());
+
+        TextView textCpuCoreNumber;
+        TextView CpuCoreNumber;
+        CpuCoreNumber = (TextView) view.findViewById(R.id.CpuCoreNumber);
+        //CpuCoreNumber.setText(CpuUtils.getCPUCoreNum());
+
+        TextView textIs64System;
+        TextView Is64System;
+        Is64System = (TextView) view.findViewById(R.id.Is64System);
+        Is64System.setText(Boolean.toString(CpuUtils.isCpu64()));
+
+        TextView textCpuMaxHz;
+        TextView CpuMaxHz;
+        CpuMaxHz = (TextView) view.findViewById(R.id.CpuMaxHz);
+        CpuMaxHz.setText(Long.toString(CpuUtils.getCpuMaxFreq()));
+
+        TextView textCpuMinHz;
+        TextView CpuMinHz;
+        CpuMinHz = (TextView) view.findViewById(R.id.CpuMinHz);
+        CpuMinHz.setText(Long.toString(CpuUtils.getCpuMinFreq()));
+
+        TextView textChangeCpuHz;
+        TextView ChangeCpuHz;
+        ChangeCpuHz = (TextView) view.findViewById(R.id.ChangeCpuHz);
+        ChangeCpuHz.setText(CpuUtils.getCpuAvailableFrequencies().toString());
+
+        TextView textChangeCpuHzWay;
+        TextView ChangeCpuHzWay;
+        ChangeCpuHzWay = (TextView) view.findViewById(R.id.ChangeCpuHzWay);
+        ChangeCpuHzWay.setText(CpuUtils.getCpuGovernor());
+
+        TextView textIsChangeCpuHzWay;
+        TextView IsChangeCpuHzWay;
+        IsChangeCpuHzWay = (TextView) view.findViewById(R.id.IsChangeCpuHzWay);
+        IsChangeCpuHzWay.setText(CpuUtils.getCpuAvailableGovernors().toString());
+
+        TextView textGetCpuCurrentHz;
+        TextView GetCpuCurrentHz;
+        GetCpuCurrentHz = (TextView) view.findViewById(R.id.GetCpuCurrentHz);
+        GetCpuCurrentHz.setText(CpuUtils.getCpuCurFreq(getActivity()).toString());
+
+        TextView textGetCpuCurrentStatus;
+        TextView GetCpuCurrentStatus;
+        GetCpuCurrentStatus = (TextView) view.findViewById(R.id.GetCpuCurrentStatus);
+        GetCpuCurrentStatus.setText(CpuUtils.getCpuOnlineStatus(getActivity()).toString());
 
         return view;
     }
@@ -146,7 +224,7 @@ public class FragmentSetting extends Fragment {
      *
      * @return totalMemStr 系统总内存大小
      */
-    private String getSysteTotalMemorySize() {
+    private String getSystemTotalMemorySize() {
         //获得ActivityManager服务的对象
         ActivityManager mActivityManager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
         //获得MemoryInfo对象
