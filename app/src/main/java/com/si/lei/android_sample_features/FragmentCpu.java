@@ -60,6 +60,7 @@ public class FragmentCpu extends Fragment {
 
         }
     }
+
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -67,6 +68,8 @@ public class FragmentCpu extends Fragment {
                 case 1:
                     textView.setText(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
                     break;
+
+                    default:
             }
             return false;
         }

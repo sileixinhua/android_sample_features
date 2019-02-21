@@ -10,6 +10,8 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StatFs;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,17 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.regex.Pattern;
 
 import static android.content.Context.BATTERY_SERVICE;
 import static android.content.Context.CONNECTIVITY_SERVICE;
@@ -47,12 +44,43 @@ public class FragmentSetting extends Fragment {
 
     private static final String TAG = FragmentSetting.class.getSimpleName();
 
-
+    TextView textSDTotalSize;
+    TextView SDTotalSize;
+    TextView textSDAvailableSize;
+    TextView SDAvailableSize;
+    TextView textSystemTotalMemorySize;
+    TextView SystemTotalMemorySize;
+    TextView textSystemAvaialbeMemorySize;
+    TextView SystemAvaialbeMemorySize;
+    TextView textSystemAvaialbeMemorySizePercent;
+    TextView SystemAvaialbeMemorySizePercent;
+    TextView textBatteryInfo;
+    TextView BatteryInfo;
+    TextView textIPAddress;
+    TextView IPAddress;
+    TextView textMacAddress;
+    TextView MacAddress;
+    TextView textCpuCoreNumber;
+    TextView CpuCoreNumber;
+    TextView textIs64System;
+    TextView Is64System;
+    TextView textCpuMaxHz;
+    TextView CpuMaxHz;
+    TextView textCpuMinHz;
+    TextView CpuMinHz;
+    TextView textChangeCpuHz;
+    TextView ChangeCpuHz;
+    TextView textChangeCpuHzWay;
+    TextView ChangeCpuHzWay;
+    TextView textIsChangeCpuHzWay;
+    TextView IsChangeCpuHzWay;
+    TextView textGetCpuCurrentHz;
+    TextView GetCpuCurrentHz;
+    TextView textGetCpuCurrentStatus;
+    TextView GetCpuCurrentStatus;
 
     public static FragmentSetting newInstance() {
         FragmentSetting fragmentSetting = new FragmentSetting();
-
-
 
         return fragmentSetting;
     }
@@ -72,15 +100,18 @@ public class FragmentSetting extends Fragment {
          * 获得电池电量百分比: 100%
          * IP地址: 172.30.61.127
          * MAC地址: 02:00:00:00:00:02
+         *
+         * 与之相关的方法。
+         *
+         * getSDTotalSize();
+         * getSDAvailableSize();
+         * getSystemTotalMemorySize();
+         * getSystemAvaialbeMemorySize();
+         * getSystemAvaialbeMemorySizePercent();
+         * getBatteryInfo();
+         * getIPAddress();
+         * getMacAddress();
          */
-        getSDTotalSize();
-        getSDAvailableSize();
-        getSystemTotalMemorySize();
-        getSystemAvaialbeMemorySize();
-        getSystemAvaialbeMemorySizePercent();
-        getBatteryInfo();
-        getIPAddress();
-        getMacAddress();
 
         Log.d(TAG, "获得CPU核心数: " + CpuUtils.getCPUCoreNum());
         Log.d(TAG, "64 系统判断: " + CpuUtils.isCpu64());
@@ -101,90 +132,25 @@ public class FragmentSetting extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
-        TextView textSDTotalSize;
-        TextView SDTotalSize;
         SDTotalSize = (TextView) view.findViewById(R.id.SDTotalSize);
-        SDTotalSize.setText(getSDTotalSize());
-
-        TextView textSDAvailableSize;
-        TextView SDAvailableSize;
         SDAvailableSize = (TextView) view.findViewById(R.id.SDAvailableSize);
-        SDAvailableSize.setText(getSDAvailableSize());
-
-        TextView textSystemTotalMemorySize;
-        TextView SystemTotalMemorySize;
         SystemTotalMemorySize = (TextView) view.findViewById(R.id.SystemTotalMemorySize);
-        SystemTotalMemorySize.setText(getSystemTotalMemorySize());
-
-        TextView textSystemAvaialbeMemorySize;
-        TextView SystemAvaialbeMemorySize;
         SystemAvaialbeMemorySize = (TextView) view.findViewById(R.id.SystemAvaialbeMemorySize);
-        SystemAvaialbeMemorySize.setText(getSystemAvaialbeMemorySize());
-
-        TextView textSystemAvaialbeMemorySizePercent;
-        TextView SystemAvaialbeMemorySizePercent;
         SystemAvaialbeMemorySizePercent = (TextView) view.findViewById(R.id.SystemAvaialbeMemorySizePercent);
-        SystemAvaialbeMemorySizePercent.setText(Long.toString(getSystemAvaialbeMemorySizePercent()));
-
-        TextView textBatteryInfo;
-        TextView BatteryInfo;
         BatteryInfo = (TextView) view.findViewById(R.id.BatteryInfo);
-        //BatteryInfo.setText(getBatteryInfo());
-
-        TextView textIPAddress;
-        TextView IPAddress;
         IPAddress = (TextView) view.findViewById(R.id.IPAddress);
-        IPAddress.setText(getIPAddress());
-
-        TextView textMacAddress;
-        TextView MacAddress;
         MacAddress = (TextView) view.findViewById(R.id.MacAddress);
-        MacAddress.setText(getMacAddress());
-
-        TextView textCpuCoreNumber;
-        TextView CpuCoreNumber;
         CpuCoreNumber = (TextView) view.findViewById(R.id.CpuCoreNumber);
-        //CpuCoreNumber.setText(CpuUtils.getCPUCoreNum());
-
-        TextView textIs64System;
-        TextView Is64System;
         Is64System = (TextView) view.findViewById(R.id.Is64System);
-        Is64System.setText(Boolean.toString(CpuUtils.isCpu64()));
-
-        TextView textCpuMaxHz;
-        TextView CpuMaxHz;
         CpuMaxHz = (TextView) view.findViewById(R.id.CpuMaxHz);
-        CpuMaxHz.setText(Long.toString(CpuUtils.getCpuMaxFreq()));
-
-        TextView textCpuMinHz;
-        TextView CpuMinHz;
         CpuMinHz = (TextView) view.findViewById(R.id.CpuMinHz);
-        CpuMinHz.setText(Long.toString(CpuUtils.getCpuMinFreq()));
-
-        TextView textChangeCpuHz;
-        TextView ChangeCpuHz;
         ChangeCpuHz = (TextView) view.findViewById(R.id.ChangeCpuHz);
-        ChangeCpuHz.setText(CpuUtils.getCpuAvailableFrequencies().toString());
-
-        TextView textChangeCpuHzWay;
-        TextView ChangeCpuHzWay;
         ChangeCpuHzWay = (TextView) view.findViewById(R.id.ChangeCpuHzWay);
-        ChangeCpuHzWay.setText(CpuUtils.getCpuGovernor());
-
-        TextView textIsChangeCpuHzWay;
-        TextView IsChangeCpuHzWay;
         IsChangeCpuHzWay = (TextView) view.findViewById(R.id.IsChangeCpuHzWay);
-        IsChangeCpuHzWay.setText(CpuUtils.getCpuAvailableGovernors().toString());
-
-        TextView textGetCpuCurrentHz;
-        TextView GetCpuCurrentHz;
         GetCpuCurrentHz = (TextView) view.findViewById(R.id.GetCpuCurrentHz);
-        GetCpuCurrentHz.setText(CpuUtils.getCpuCurFreq(getActivity()).toString());
-
-        TextView textGetCpuCurrentStatus;
-        TextView GetCpuCurrentStatus;
         GetCpuCurrentStatus = (TextView) view.findViewById(R.id.GetCpuCurrentStatus);
-        GetCpuCurrentStatus.setText(CpuUtils.getCpuOnlineStatus(getActivity()).toString());
+
+        new TimeThread().start();
 
         return view;
     }
@@ -405,4 +371,52 @@ public class FragmentSetting extends Fragment {
         }
         return resultBuffer.toString();
     }
+
+    public class TimeThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            do{
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }while (true);
+
+        }
+    }
+
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    SDTotalSize.setText(getSDTotalSize());
+                    SDAvailableSize.setText(getSDAvailableSize());
+                    SystemTotalMemorySize.setText(getSystemTotalMemorySize());
+                    SystemAvaialbeMemorySize.setText(getSystemAvaialbeMemorySize());
+                    SystemAvaialbeMemorySizePercent.setText(Long.toString(getSystemAvaialbeMemorySizePercent()));
+                    //BatteryInfo.setText(getBatteryInfo());
+                    IPAddress.setText(getIPAddress());
+                    MacAddress.setText(getMacAddress());
+                    //CpuCoreNumber.setText(CpuUtils.getCPUCoreNum());
+                    Is64System.setText(Boolean.toString(CpuUtils.isCpu64()));
+                    CpuMaxHz.setText(Long.toString(CpuUtils.getCpuMaxFreq()));
+                    CpuMinHz.setText(Long.toString(CpuUtils.getCpuMinFreq()));
+                    ChangeCpuHz.setText(CpuUtils.getCpuAvailableFrequencies().toString());
+                    ChangeCpuHzWay.setText(CpuUtils.getCpuGovernor());
+                    IsChangeCpuHzWay.setText(CpuUtils.getCpuAvailableGovernors().toString());
+                    GetCpuCurrentHz.setText(CpuUtils.getCpuCurFreq(getActivity()).toString());
+                    GetCpuCurrentStatus.setText(CpuUtils.getCpuOnlineStatus(getActivity()).toString());
+                    break;
+
+                    default:
+            }
+            return false;
+        }
+    });
 }
