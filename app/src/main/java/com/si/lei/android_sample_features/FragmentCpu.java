@@ -5,18 +5,24 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author lei.si
  * @date 2019/02/18
  * Cpu不同核心的使用状态
+ *
+ * @date 2019/04/06
+ * 终于明白adb打印CPU根本就不对，这个需要链接USB，都链接USB了，直接在电脑上adb不就行了？
+ * 此举没有意义，所以
+ * 直接打印出进程信息就可以了
  */
 public class FragmentCpu extends Fragment {
 
@@ -26,9 +32,6 @@ public class FragmentCpu extends Fragment {
 
     public static FragmentCpu newInstance() {
         FragmentCpu fragmentCpu = new FragmentCpu();
-
-
-
         return fragmentCpu;
     }
 
@@ -61,14 +64,29 @@ public class FragmentCpu extends Fragment {
         }
     }
 
+    //打印thread和stackTraceElements
+    private void printThread() {
+        Map<Thread, StackTraceElement[]> stacks = Thread.getAllStackTraces();
+        Set<Thread> set = stacks.keySet();
+        for (Thread key : set) {
+            StackTraceElement[] stackTraceElements = stacks.get(key);
+            Log.d(TAG, "---- print thread: " + key.getName() + " start ----");
+            for (StackTraceElement st : stackTraceElements) {
+                Log.d(TAG, "StackTraceElement: " + st.toString());
+            }
+            Log.d(TAG, "---- print thread: " + key.getName() + " end ----");
+        }
+    }
+
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
-                    textView.setText(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
-                    break;
+                    //textView.setText(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
+                    //textView.setText();
 
+                    break;
                     default:
             }
             return false;

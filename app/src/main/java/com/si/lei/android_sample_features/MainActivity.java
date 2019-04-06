@@ -10,8 +10,9 @@ import android.view.View;
  * @date 2019/02/15
  * 添加底部导航栏
  * https://github.com/yaochangliang159/Android-TabView
+ *
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
