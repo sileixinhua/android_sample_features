@@ -17,10 +17,15 @@ android_sample_features
 4.飘窗为全局飘窗，但是暂有文字无法改动的BUG
 
 【测试环境】
+
 小米2 MIUI 8 7.2.19|开发版 2+4GB
 
 【APP界面图示所示】
+
 ![Image text](https://github.com/sileixinhua/android_sample_features/blob/master/Screenshot_2019-04-07-07-51-14-539_com.si.lei.android_sample_features.png)
+
 ![Image text](https://github.com/sileixinhua/android_sample_features/blob/master/Screenshot_2019-04-07-07-51-24-479_com.si.lei.android_sample_features.png)
+
 ![Image text](https://github.com/sileixinhua/android_sample_features/blob/master/Screenshot_2019-04-07-07-51-35-438_com.si.lei.android_sample_features.png)
+
 ![Image text](https://github.com/sileixinhua/android_sample_features/blob/master/Screenshot_2019-04-07-07-51-51-193_com.si.lei.android_sample_features.png)
