@@ -3,9 +3,11 @@ android_sample_features
 
 此APP是为了学习Android AKP而制作的各种工具和Future示例
 
-【TODO】【Bug】悬浮窗中的TextView字符暂时无法成功显示可用内存大小
+【TODO】
+【Bug】悬浮窗中的TextView字符暂时无法成功显示可用内存大小
 
 【现在已有的功能】
+
 1.工具箱里有查看SD卡，内存，CPU，进程，IP，MAC地址等等相关信息，主要是围绕CPU相关信息进行监测
 
 2.工具箱中为4个标签页形式展示现在已有功能，并方便日后扩展相关功能
