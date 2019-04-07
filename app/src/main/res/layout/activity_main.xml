@@ -13,4 +13,11 @@
         android:text="DJI安卓工具箱"
         android:onClick="quick_start"
         />
+
+    <Button
+        android:id="@+id/btn_window"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="显示悬浮窗"
+        />
 </LinearLayout>
