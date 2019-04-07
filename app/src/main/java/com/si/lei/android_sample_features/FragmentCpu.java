@@ -29,6 +29,7 @@ public class FragmentCpu extends Fragment {
     private static final String TAG = FragmentCpu.class.getSimpleName();
 
     TextView textView;
+    StringBuilder printStr = new StringBuilder();
 
     public static FragmentCpu newInstance() {
         FragmentCpu fragmentCpu = new FragmentCpu();
@@ -71,6 +72,21 @@ public class FragmentCpu extends Fragment {
         for (Thread key : set) {
             StackTraceElement[] stackTraceElements = stacks.get(key);
             Log.d(TAG, "---- print thread: " + key.getName() + " start ----");
+            Log.d(TAG, "---- print thread: " + key.toString());
+            Log.d(TAG, "---- print thread: " + key.getContextClassLoader());
+            Log.d(TAG, "---- print thread: " + key.getId());
+            Log.d(TAG, "---- print thread: " + key.getPriority());
+            Log.d(TAG, "---- print thread: " + key.getStackTrace());
+            Log.d(TAG, "---- print thread: " + key.getThreadGroup());
+            Log.d(TAG, "---- print thread: " + key.getState());
+            printStr.append("Name : " + key.getName() + "\n\n");
+            //printStr.append(key.toString() + "\n\n");
+            //printStr.append("ContextClassLoader:" + key.getContextClassLoader() + "\n\n");
+            printStr.append("Id : " + key.getId() + "\n\n");
+            printStr.append("Priority : " + key.getPriority() + "\n\n");
+            printStr.append("StackTrace : " + key.getStackTrace() + "\n\n");
+            printStr.append("ThreadGroup : " + key.getThreadGroup() + "\n\n");
+            printStr.append("State : " + key.getState() + "\n-----------------------\n");
             for (StackTraceElement st : stackTraceElements) {
                 Log.d(TAG, "StackTraceElement: " + st.toString());
             }
@@ -85,7 +101,8 @@ public class FragmentCpu extends Fragment {
                 case 1:
                     //textView.setText(new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis())));
                     //textView.setText();
-
+                    printThread();
+                    textView.setText(printStr);
                     break;
                     default:
             }
